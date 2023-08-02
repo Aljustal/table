@@ -25,9 +25,8 @@ public class TableController {
     @PostMapping("/updateCell")
     @ResponseBody
     public String updateCell(@RequestParam String cellId, @RequestParam String cellValue) {
-        cells.put(cellId, cellValue); // Store the input value in the cells map
+        cells.put(cellId, cellValue);
 
-        // Calculate the cell value if it's a formula
         if (cellValue.startsWith("=")) {
             String formula = cellValue.substring(1);
             try {
