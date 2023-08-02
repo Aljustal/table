@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mini-table</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<table>
+    <tr>
+        <th></th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td><input type="text" class="cell" id="A1"></td>
+        <td><input type="text" class="cell" id="B1"></td>
+        <td><input type="text" class="cell" id="C1"></td>
+        <td><input type="text" class="cell" id="D1"></td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td><input type="text" class="cell" id="A2"></td>
+        <td><input type="text" class="cell" id="B2"></td>
+        <td><input type="text" class="cell" id="C2"></td>
+        <td><input type="text" class="cell" id="D2"></td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td><input type="text" class="cell" id="A3"></td>
+        <td><input type="text" class="cell" id="B3"></td>
+        <td><input type="text" class="cell" id="C3"></td>
+        <td><input type="text" class="cell" id="D3"></td>
+    </tr>
+    <tr>
+        <td>4</td>
+        <td><input type="text" class="cell" id="A4"></td>
+        <td><input type="text" class="cell" id="B4"></td>
+        <td><input type="text" class="cell" id="C4"></td>
+        <td><input type="text" class="cell" id="D4"></td>
+    </tr>
+    <!-- Add rows for additional cells if needed -->
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('.cell').on('keyup', function (event) {
+            if (event.keyCode === 13) {
+                $(this).blur(); // Trigger blur when Enter key is pressed
+            }
+        });
+
+        $('.cell').on('blur', function () {
+            const cellId = $(this).attr('id');
+            const cellValue = $(this).val();
+            updateCellValue(cellId, cellValue);
+        });
+    });
+
+    function updateCellValue(cellId, cellValue) {
+        $.ajax({
+            url: '/updateCell',
+            type: 'POST',
+            data: {
+                cellId: cellId,
+                cellValue: cellValue
+            },
+            success: function (data) {
+                // On successful response, update the cell value with the calculated value
+                $('#' + cellId).val(data);
+            },
+            error: function () {
+                alert('Error occurred while updating cell value');
+            }
+        });
+    }
+</script>
+</body>
+</html>
